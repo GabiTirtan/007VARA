@@ -1,1 +1,1 @@
-Message distroyed
+Message anihilated
