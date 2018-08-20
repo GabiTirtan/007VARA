@@ -50,9 +50,9 @@ class CEncoder:public CTask
     public:
         /* Constructor */
         CEncoder(uint32_t    f_period
-                ,float      f_period_sec
-                ,uint32_t   f_cpr
-                ,PinName    f_pinName);
+                ,float       f_period_sec
+                ,uint32_t    f_cpr
+                ,PinName     f_pinName);
         /* Get rotations per second */
         float getRPS();
     protected:
