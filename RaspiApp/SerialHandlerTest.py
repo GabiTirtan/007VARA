@@ -4,6 +4,7 @@ import serial
 import time
 import sys
 import SaveEncoder
+import curses
 
 
 global serialHandler
@@ -191,17 +192,68 @@ def testPidValue(SerialHandler):
     serialHandler.readThread.deleteWaiter("PIDS", ev1)
 
 
-def main():
+#def main():
+#    # Initiliazation
+#    global serialHandler
+#    serialHandler = SerialHandler.SerialHandler("COM7")
+#    serialHandler.startReadThread()
+
+#    testMOVEAndBrake(serialHandler)
+#    # testBrake(serialHandler)
+#    time.sleep(0.5)
+#    serialHandler.close()
+
+def main(win):
     # Initiliazation
     global serialHandler
-    serialHandler = SerialHandler.SerialHandler("COM24")
+    serialHandler = SerialHandler.SerialHandler()
     serialHandler.startReadThread()
 
-    testMOVEAndBrake(serialHandler)
-    # testBrake(serialHandler)
+    #testPid(serialHandler)
+    #testPidValue(serialHandler)
+
+    pwm = 0.0
+    angle = 0.0
+    while true:
+        try:                 
+            key = win.getkey()         
+            win.clear()   
+            
+            if pwm >= 10.0:
+                pwm -= 2.5
+            if pwm <= 10.0:
+                pwm += 2.0
+
+            if angle > 0:
+                angle -= 2.0
+            if angle < 0:
+                angle += 2.0
+
+
+            if str(key) is 'w':
+                if (pwm < 20.0):
+                    pwm += 4.0
+            if str(key) is 's':
+                if (pwm > -20.0):
+                    pwm -= 4.0
+            if str(key) is 'a':
+                if (angle > -20):
+                    angle -= 4.0
+            if str(key) is 'd':
+                if (angle < 20):
+                    angle += 4.0
+            if str(key) is 'q':
+                serialhandler.sendbrake(angle)
+                break
+            serialhandler.sendmove(pwm, angle)
+        except exception as e:
+           # no input   
+           pass
+
     time.sleep(0.5)
     serialHandler.close()
 
+curses.wrapper(main)
 
 if __name__ == "__main__":
     main()
