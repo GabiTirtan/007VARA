@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Embedded_Platform",
+    "\\Embedded_Platform\\CommandInterpreter",
+    "\\Embedded_Platform\\Controllers",
+    "\\Embedded_Platform\\mbed",
+    "\\Embedded_Platform\\MotionController",
+    "\\Embedded_Platform\\MOVE",
+    "\\Embedded_Platform\\SERVO",
+    "\\Embedded_Platform\\TaskManager",
+    "\\RaspiApp"
+  ],
+  "SelectedNode": "\\Embedded_Platform\\main.cpp",
+  "PreviewInSolutionExplorer": false
+}
