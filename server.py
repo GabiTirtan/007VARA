@@ -5,7 +5,7 @@ import struct
 import cv2
 import time
 
-host = '127.0.0.1'
+host = '192.168.1.6'
 port = 8888
 
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -19,7 +19,7 @@ except socket.error as msg:
 
 print ('Socket bind succesfull')
 
-s.listen(1)
+s.listen(2)
 print ('Socket now listening')
 
 con,addr = s.accept()
@@ -28,6 +28,7 @@ size = struct.calcsize("L")#the size of an unsigned long which will be received 
 while 1:
     while len(data) < size:     #get bytes from the network until we received the length of the data
         data += con.recv(4096)
+    print("Received")
     packed_msg_size = data[:size] #save the length of the message
     data = data[size:]#clear the data variable
     msg_size = struct.unpack("L", packed_msg_size)[0] #unpack the size of the data

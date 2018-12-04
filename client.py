@@ -27,34 +27,32 @@ time.sleep(0.1)
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
 	# grab the raw NumPy array representing the image, then initialize the timestamp
 	# and occupied/unoccupied text
-	image = frame.array
- 
+    image = frame.array
 	# show the frame
- 
 	# clear the stream in preparation for the next frame
-	rawCapture.truncate(0)
+    rawCapture.truncate(0)
     #transform the frame in bytes that can be sent over network
-    data = pickle.dumps(frame)
+    data = pickle.dumps(image)
     #send the length of the data as an unsigned long type
     #then the actual data
     s.sendall(struct.pack("L",len(data)) + data)
 
 
 
-import socket
-import cv2
-import pickle
-import struct
+#import socket
+#import cv2
+#import pickle
+#import struct
 
 
-cap = cv2.VideoCapture(0)
-s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-s.connect(('localhost',8888))
+#cap = cv2.VideoCapture(0)
+#s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+#s.connect(('localhost',8888))
 
-while True:
-      ret,frame = cap.read()
-       data = pickle.dumps(frame)
-       s.send(struct.pack("L",len(data))+data)
+#while True:
+#      ret,frame = cap.read()
+#       data = pickle.dumps(frame)
+#       s.send(struct.pack("L",len(data))+data)
 
 
 
