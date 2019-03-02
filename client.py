@@ -7,13 +7,11 @@ import time
 import cv2
 import pickle
 import struct
-
 #create a default socket
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #connect with the server, make sure the server is runnig on 
 #the same host and port
-s.connect(('192.168.1.6',8888))     #asta e adresa mea locala pe reteaua wifi de la sedu, se poate schimba
-
+s.connect(('localhost',8888))     #asta e adresa mea locala pe reteaua wifi de la sedu, se poate schimba
 # initialize the camera and grab a reference to the raw camera capture
 camera = PiCamera()
 camera.resolution = (640, 480)
@@ -48,24 +46,5 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     fps = 1/duration
     print(fps)
     s.sendall(struct.pack("L",len(data)) + data)
-
-
-
-#import socket
-#import cv2
-#import pickle
-#import struct
-
-
-#cap = cv2.VideoCapture(0)
-#s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-#s.connect(('localhost',8888))
-
-#while True:
-#      ret,frame = cap.read()
-#       data = pickle.dumps(frame)
-#       s.send(struct.pack("L",len(data))+data)
-
-
 
 

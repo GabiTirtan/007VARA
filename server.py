@@ -5,7 +5,7 @@ import struct
 import cv2
 import time
 
-host = '192.168.1.6'
+host = 'localhost'
 port = 8888
 
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
