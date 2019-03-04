@@ -19,21 +19,22 @@ class video_client(threading.Thread):
     def run(self):
         while self.isRunning:
             if self.newFrame:
-                print('sending...')
+                #print('sending...')
                 cv2.line(self.frame,(0,0),(200,200),(0,255,0))
                 retval, stream = cv2.imencode('\.jpeg',self.frame)
                 self.file.write(stream)
-                print('Frame sent')
+                #print('Frame sent')
                 self.newFrame = False
         print('streaming client stopped')
 
     def stop(self):
         self.isRunning = False
+        self.file.close()
 
     def send(self,frame):
         self.frame = frame
         self.newFrame = True
-        print('Loaded image')
+        #print('Loaded image')
 
 
 def main():
