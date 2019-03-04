@@ -7,7 +7,6 @@ from inputs import get_gamepad
 import threading
 import socket
 import struct
-import gamepad_server
 
 FLAG_SPEED = 0
 FLAG_ANGLE = 1
@@ -79,6 +78,17 @@ class Controller(threading.Thread):
                         Y_coord = event.state
                         temp = int(self.map(Y_coord,0, 255, self.speedLow, self.speedHigh))
                         if self.speed != temp:
+                            if temp < self.speedHigh/2:
+                                temp = 0
+                            print("new speed:",temp)
+                            self.speed = temp
+                            self.send(FLAG_SPEED,self.speed)
+                    elif event.code == 'ABS_Z':        #left trigger
+                        Y_coord = event.state
+                        temp = int(self.map(Y_coord,255, 0, -self.speedHigh, self.speedLow))
+                        if self.speed != temp:
+                            if temp > -self.speedHigh/2:
+                                temp = 0
                             print("new speed:",temp)
                             self.speed = temp
                             self.send(FLAG_SPEED,self.speed)
@@ -94,6 +104,10 @@ class Controller(threading.Thread):
 
 def main():
     """Just print out some event infomation when the gamepad is used."""
+    while 1:
+        events = get_gamepad()
+        for event in events:
+            print(event.ev_type,event.code,event.state)
     control = Controller('localhost',8888,0,40,-40,40)
     control.start()
     control.join()          
