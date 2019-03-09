@@ -1,8 +1,0 @@
-To run the code, type in terminal: python AdvancedLaneFinding.py
-
-You can quit the simulation by pressing q.
-
-In examples folder there are more test videos. The algorithm does not work perfectly on all of
-them.
-
-Just found out that if you remove the undistortion portion of the algorithm, the fps go bonkers.
