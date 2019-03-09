@@ -24,6 +24,7 @@ class video_server(threading.Thread):
     def run(self):
         lastTime = time.time()
         currTime = 0
+        nr = 0
         while self.isRunning:
             self.stream += self.file.read(1024)
             first = self.stream.find(b'\xff\xd8')
@@ -38,6 +39,8 @@ class video_server(threading.Thread):
                 lastTime = currTime
                 print(fps)
                 cv2.imshow('frame',frame)
+                #cv2.imwrite('photos/stop%d.jpeg' % nr,frame,)
+                nr += 1
                 cv2.waitKey(1)
             
 
