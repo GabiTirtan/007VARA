@@ -18,6 +18,7 @@ class video_server(threading.Thread):
         self.s.bind(self.address)
         self.s.listen(0)
         (self.con, self.conAddr) = self.s.accept()
+        print("Connected")
         self.file = self.con.makefile('rb')
 
     def run(self):
@@ -28,7 +29,7 @@ class video_server(threading.Thread):
             first = self.stream.find(b'\xff\xd8')
             last = self.stream.find(b'\xff\xd9')
             if last != -1 and first != -1:
-                print('frame received')
+                #print('frame received')
                 jpg = self.stream[first:last + 2]
                 self.stream = self.stream[last + 2:]
                 frame = cv2.imdecode(np.frombuffer(jpg,dtype=np.uint8),cv2.IMREAD_COLOR)
@@ -47,9 +48,9 @@ class video_server(threading.Thread):
         self.file.close()
 
 def main():
-    video = video_server('localhost',8888)
+    video = video_server('192.168.1.10',8888)
     video.start()
-    time.sleep(20)
+    time.sleep(100)
     video.stop()
     video.join()
     print('Done')
